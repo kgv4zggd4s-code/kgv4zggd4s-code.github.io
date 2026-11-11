@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我的导航站</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #f7f8fa;
+    color: #1f2329;
+    line-height: 1.6;
+  }
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+
+  /* 顶部 */
+  header {
+    background: linear-gradient(135deg, #4f7cff, #6c5ce7);
+    color: #fff;
+    padding: 48px 0 56px;
+    text-align: center;
+  }
+  header h1 { font-size: 30px; font-weight: 700; }
+  header p { margin-top: 8px; opacity: .85; font-size: 15px; }
+
+  /* 搜索框 */
+  .search-wrap {
+    max-width: 560px;
+    margin: -26px auto 0;
+    padding: 0 20px;
+  }
+  .search-wrap input {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 15px;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 6px 24px rgba(0,0,0,.08);
+    outline: none;
+  }
+
+  /* 分类 */
+  section { margin-top: 36px; }
+  section h2 {
+    font-size: 18px;
+    margin-bottom: 16px;
+    padding-left: 10px;
+    border-left: 4px solid #4f7cff;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+  }
+  .card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 16px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform .18s, box-shadow .18s;
+    border: 1px solid #eceef1;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,.07);
+    border-color: #d5deff;
+  }
+  .card .name { font-weight: 600; font-size: 15px; }
+  .card .desc { font-size: 13px; color: #8a919f; margin-top: 4px; }
+
+  footer {
+    text-align: center;
+    color: #a8adb8;
+    font-size: 13px;
+    padding: 48px 0 32px;
+  }
+  .empty { text-align: center; color: #a8adb8; padding: 40px 0; display: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>我的导航站</h1>
+    <p>收藏那些好用的工具与资源</p>
+  </div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="搜索站点名称或描述…" oninput="doSearch()">
+</div>
+
+<div class="container">
+
+  <!-- 分类：一个 section 就是一类 -->
+  <section>
+    <h2>设计灵感</h2>
+    <div class="grid">
+      <a class="card" href="https://www.zcool.com.cn" target="_blank">
+        <div class="name">站酷</div>
+        <div class="desc">国内设计师作品社区</div>
+      </a>
+      <a class="card" href="https://www.ui.cn" target="_blank">
+        <div class="name">UI中国</div>
+        <div class="desc">交互与界面设计平台</div>
+      </a>
+      <a class="card" href="https://www.iconfont.cn" target="_blank">
+        <div class="name">iconfont</div>
+        <div class="desc">阿里巴巴矢量图标库</div>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <h2>开发工具</h2>
+    <div class="grid">
+      <a class="card" href="https://www.runoob.com" target="_blank">
+        <div class="name">菜鸟教程</div>
+        <div class="desc">编程入门参考手册</div>
+      </a>
+      <a class="card" href="https://caniuse.com" target="_blank">
+        <div class="name">Can I Use</div>
+        <div class="desc">浏览器兼容性查询</div>
+      </a>
+      <a class="card" href="https://developer.mozilla.org/zh-CN/" target="_blank">
+        <div class="name">MDN</div>
+        <div class="desc">Web 技术官方文档</div>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <h2>效率办公</h2>
+    <div class="grid">
+      <a class="card" href="https://www.yuque.com" target="_blank">
+        <div class="name">语雀</div>
+        <div class="desc">知识沉淀与文档协作</div>
+      </a>
+      <a class="card" href="https://www.processon.com" target="_blank">
+        <div class="name">ProcessOn</div>
+        <div class="desc">在线流程图与思维导图</div>
+      </a>
+    </div>
+  </section>
+
+  <div class="empty" id="empty">没有找到相关内容</div>
+</div>
+
+<footer>© 2026 我的导航站 · 用心整理</footer>
+
+<script>
+function doSearch() {
+  const kw = document.getElementById('search').value.trim().toLowerCase();
+  let total = 0;
+  document.querySelectorAll('section').forEach(sec => {
+    let visible = 0;
+    sec.querySelectorAll('.card').forEach(card => {
+      const text = card.textContent.toLowerCase();
+      const hit = !kw || text.includes(kw);
+      card.style.display = hit ? '' : 'none';
+      if (hit) visible++;
+    });
+    sec.style.display = visible ? '' : 'none';
+    total += visible;
+  });
+  document.getElementById('empty').style.display = total ? 'none' : 'block';
+}
+</script>
+
+</body>
+</html>
